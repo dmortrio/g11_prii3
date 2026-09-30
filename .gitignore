@@ -1,0 +1,15 @@
+# Carpetas de compilación e instalación de colcon
+build/
+install/
+log/
+
+# Archivos de entorno y temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Archivos del sistema
+.DS_Store
+*.swp
+*~
