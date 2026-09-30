@@ -7,41 +7,29 @@ class TurtleDrawer(Node):
     def __init__(self):
         super().__init__('turtle_drawer')
 
-        # Clientes para controlar el lápiz y posicionar la tortuga
+        #Control del lapiz y turtle
         self.pen_client = self.create_client(SetPen, '/turtle1/set_pen')
         self.teleport_client = self.create_client(TeleportAbsolute, '/turtle1/teleport_absolute')
 
-        # Servicios ROS requeridos por la práctica
+        # Servicios ROS
         self.srv_detener = self.create_service(Trigger, 'detener', self.cb_detener)
         self.srv_reanudar = self.create_service(Trigger, 'reanudar', self.cb_reanudar)
         self.srv_reiniciar = self.create_service(Trigger, 'reiniciar', self.cb_reiniciar)
 
-        # Definición geométrica de los puntos (x, y, theta, pen_off)
-        # pen_off: 1 = no dibuja (desplazamiento), 0 = dibuja trazo
-        # Coordenadas pensadas para el rango central seguro del lienzo (0 a 11)
+        # pen_off: 1 = no dibuja, 0 = dibuja trazo
         self.points = [
-            # ================= PRIMER '1' (Centro en X ~ 4.0) =================
-            # 1. Inicio de la visera diagonal (lápiz arriba)
+            #PRIMER 1
             (3.0, 6.5, 0.9, 1),
-            # 2. Vértice superior (visera dibujada)
             (4.0, 8.0, -1.57, 0),
-            # 3. Base del mástil vertical
             (4.0, 3.5, 0.0, 0),
-            # 4. Extremo izquierdo de la base horizontal (lápiz arriba)
             (2.8, 3.5, 0.0, 1),
-            # 5. Extremo derecho de la base horizontal (trazado)
             (5.2, 3.5, 0.0, 0),
 
-            # ================= SEGUNDO '1' (Centro en X ~ 7.5) =================
-            # 6. Inicio de la visera diagonal (lápiz arriba)
+            #SEGUNDO 1
             (6.5, 6.5, 0.9, 1),
-            # 7. Vértice superior (visera dibujada)
             (7.5, 8.0, -1.57, 0),
-            # 8. Base del mástil vertical
             (7.5, 3.5, 0.0, 0),
-            # 9. Extremo izquierdo de la base horizontal (lápiz arriba)
             (6.3, 3.5, 0.0, 1),
-            # 10. Extremo derecho de la base horizontal (trazado)
             (8.7, 3.5, 0.0, 0),
 
             # Fin: levantar lápiz
@@ -51,7 +39,7 @@ class TurtleDrawer(Node):
         self.current_idx = 0
         self.state = 'INITIALIZING'
         self.timer = self.create_timer(0.4, self.loop)
-        self.get_logger().info('TurtleDrawer listo con trazado geométrico seguro.')
+        self.get_logger().info('TurtleDrawer listo.')
 
     def set_pen(self, off):
         if self.pen_client.service_is_ready():
